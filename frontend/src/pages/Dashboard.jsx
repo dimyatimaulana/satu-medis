@@ -101,6 +101,7 @@ const Dashboard = () => {
   };
 
   function Users({ currentItems }) {
+    // there is a bug, when edit button is clicked modal edit user automatically closed because user list was refreshed
     return (
       <>
         {currentItems &&
@@ -128,9 +129,7 @@ const Dashboard = () => {
                   <dialog id="editUser" className="modal">
                     <div className="modal-box">
                       <h3 className="font-bold text-lg">Edit User</h3>
-                      <form
-                        className="flex flex-col items-center"
-                      >
+                      <form className="flex flex-col items-center">
                         <div className="w-full max-w-xs">
                           <label
                             htmlFor="name"
@@ -201,15 +200,11 @@ const Dashboard = () => {
   function PaginatedItems({ itemsPerPage }) {
     const [itemOffset, setItemOffset] = useState(0);
     const endOffset = itemOffset + itemsPerPage;
-    // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
     const currentItems = users.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(users.length / itemsPerPage);
 
     const handlePageClick = (event) => {
       const newOffset = (event.selected * itemsPerPage) % users.length;
-      // console.log(
-      //   `User requested page number ${event.selected}, which is offset ${newOffset}`
-      // );
       setItemOffset(newOffset);
     };
 
