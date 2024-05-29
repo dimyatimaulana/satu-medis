@@ -28,6 +28,6 @@ export const refreshToken = async (req, res) => {
       }
     );
   } catch (error) {
-    console.log(error);
+    res.json({ message: "Cannot get refresh token" })
   }
 };
