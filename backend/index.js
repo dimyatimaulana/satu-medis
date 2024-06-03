@@ -5,6 +5,7 @@ import cors from "cors";
 import db from "./config/database.js";
 import router from "./routes/routes.js";
 // import Products from "./models/ProductModel.js";
+// import Customers from "./models/CustomerModel.js";
 const app = express();
 dotenv.config();
 
@@ -13,6 +14,7 @@ try {
   console.log("Database connected...");
   // create products table if not exist
   // await Products.sync()
+  // await Customers.sync()
 } catch (error) {
   console.error(error);
 }
