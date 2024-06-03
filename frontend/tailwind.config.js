@@ -12,7 +12,7 @@ export default {
         body: ["Poppins", "Open Sans", "sans-serif"],
       },
       colors: {
-        primary: "#2E90FA",
+        primary: "#464646",
         "title-text": "#515B6F",
         gray: "#828282",
         "gray-2": "#F8FAFE",

@@ -4,12 +4,15 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import db from "./config/database.js";
 import router from "./routes/routes.js";
+// import Products from "./models/ProductModel.js";
 const app = express();
 dotenv.config();
 
 try {
   await db.authenticate();
   console.log("Database connected...");
+  // create products table if not exist
+  // await Products.sync()
 } catch (error) {
   console.error(error);
 }

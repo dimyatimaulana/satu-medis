@@ -107,7 +107,6 @@ export const updateUser = async (req, res) => {
   });
   if (!user) return res.status(404).json({ msg: "User is not found" });
   const { name, email, password } = req.body;
-  console.log(name, email, password);
 
   let updateName;
   if (name === "" || name === null) {
