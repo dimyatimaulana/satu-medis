@@ -10,6 +10,22 @@ export const getCustomers = async (req, res) => {
   }
 };
 
+export const getOneCustomer = async (req, res) => {
+  try {
+    const customer = await Customers.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+    if (!customer)
+      return res.status(404).json({ message: "Customer is not found" });
+    res.json(customer);
+  } catch (error) {
+    console.log(error);
+    res.json({ message: "Failed to get the customer" });
+  }
+}
+
 export const createCustomer = async (req, res) => {
   const { firstname, lastname, address, phone, whatsapp } = req.body;
   try {
