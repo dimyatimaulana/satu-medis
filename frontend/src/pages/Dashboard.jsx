@@ -7,9 +7,9 @@ import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import ProductsPage from "./ProductsPage";
+import CustomersPage from "./CustomersPage";
 
 const Dashboard = () => {
-  const [user, setUser] = useState("");
   const [token, setToken] = useState("");
   const [expire, setExpire] = useState("");
   const navigate = useNavigate();
@@ -26,7 +26,6 @@ const Dashboard = () => {
       const response = await axios.get("http://localhost:4000/token");
       setToken(response.data.accessToken);
       const decoded = jwtDecode(response.data.accessToken);
-      setUser(decoded.name);
       setExpire(decoded.exp);
     } catch (error) {
       if (error.response) {
@@ -46,7 +45,6 @@ const Dashboard = () => {
         config.headers.Authorization = `Bearer ${response.data.accessToken}`;
         setToken(response.data.accessToken);
         const decoded = jwtDecode(response.data.accessToken);
-        setUser(decoded.name);
         setExpire(decoded.exp);
       }
       return config;
@@ -64,13 +62,38 @@ const Dashboard = () => {
     });
   };
 
+  if (page === "products") {
+    return(
+      <>
+        <Navbar />
+        <div className="sidebar-container flex">
+          <Sidebar />
+          {/* Main content that must be rendered */}
+          { page === "products" ? <ProductsPage /> : <h1>blank page</h1> }
+        </div>
+      </>
+    )
+  }
+  if (page === "customers") {
+    return(
+      <>
+        <Navbar />
+        <div className="sidebar-container flex">
+          <Sidebar />
+          {/* Main content that must be rendered */}
+          { page === "customers" ? <CustomersPage /> : <h1>blank page</h1> }
+        </div>
+      </>
+    )
+  }
+
   return (
     <>
-      <Navbar name={user} />
+      <Navbar />
       <div className="sidebar-container flex">
         <Sidebar />
         {/* Main content that must be rendered */}
-        { page === "products" ? <ProductsPage /> : <h1>blank page</h1> }
+        <h1>Cashier Page</h1>
       </div>
     </>
   );

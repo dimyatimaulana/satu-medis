@@ -53,7 +53,10 @@ const Sidebar = () => {
               : "flex rounded-md"
           }
         >
-          <a className="flex w-full items-center gap-2 p-2 text-inherit">
+          <a
+            href="/customers"
+            className="flex w-full items-center gap-2 p-2 text-inherit"
+          >
             <FaUsers />
             <p className="hidden sm:block">Customers</p>
           </a>

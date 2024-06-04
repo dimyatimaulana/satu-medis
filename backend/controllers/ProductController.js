@@ -9,6 +9,22 @@ export const getProducts = async (req, res) => {
   }
 };
 
+export const getOneProduct = async (req, res) => {
+  try {
+    const product = await Products.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+    if (!product)
+      return res.status(404).json({ message: "Product is not found" });
+    res.json(product);
+  } catch (error) {
+    console.log(error);
+    res.json({ message: "Failed to get the product" });
+  }
+}
+
 export const createProducts = async (req, res) => {
   const { name, barcode, qty, price, cost } = req.body;
   if (price <= cost) {

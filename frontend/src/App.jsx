@@ -4,6 +4,8 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import AddProduct from "./components/AddProduct";
 import EditProduct from "./components/EditProduct";
+import AddCustomer from "./components/customers/AddCustomer";
+import EditCustomer from "./components/customers/EditCustomer";
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
         <Route path="/:page" element={<Dashboard />} />
         <Route path="/products/add" element={<AddProduct />} />
         <Route path="/products/edit/:id" element={<EditProduct />} />
+        <Route path="/customers/add" element={<AddCustomer />} />
+        <Route path="/customers/edit/:id" element={<EditCustomer />} />
       </Routes>
     </BrowserRouter>
   );
