@@ -14,7 +14,7 @@ export const getOneCustomer = async (req, res) => {
   try {
     const customer = await Customers.findOne({
       where: {
-        id: req.params.id,
+        customer_id: req.params.id,
       },
     });
     if (!customer)
@@ -46,7 +46,7 @@ export const createCustomer = async (req, res) => {
 export const updateCustomer = async (req, res) => {
   const customer = await Customers.findOne({
     where: {
-      id: req.params.id,
+      customer_id: req.params.id,
     },
   });
   if (!customer)
@@ -93,7 +93,7 @@ export const updateCustomer = async (req, res) => {
       },
       {
         where: {
-          id: customer.id,
+          customer_id: customer.id,
         },
       }
     );
@@ -109,7 +109,7 @@ export const updateCustomer = async (req, res) => {
 export const deleteCustomer = async (req, res) => {
   const customers = await Customers.findOne({
     where: {
-      id: req.params.id,
+      customer_id: req.params.id,
     },
   });
   if (!customers)
@@ -117,7 +117,7 @@ export const deleteCustomer = async (req, res) => {
   try {
     await Customers.destroy({
       where: {
-        id: customers.id,
+        customer_id: customers.id,
       },
     });
     res.status(200).json({ message: `${customers.firstname} deleted` });

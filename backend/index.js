@@ -4,8 +4,9 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import db from "./config/database.js";
 import router from "./routes/routes.js";
-// import Products from "./models/ProductModel.js";
-// import Customers from "./models/CustomerModel.js";
+import Sales from "./models/SalesModel.js";
+import Products from "./models/ProductModel.js";
+import Customers from "./models/CustomerModel.js";
 const app = express();
 dotenv.config();
 
@@ -13,8 +14,9 @@ try {
   await db.authenticate();
   console.log("Database connected...");
   // create products table if not exist
-  // await Products.sync()
-  // await Customers.sync()
+  await Products.sync()
+  await Customers.sync()
+  await Sales.sync()
 } catch (error) {
   console.error(error);
 }

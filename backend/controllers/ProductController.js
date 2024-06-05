@@ -13,7 +13,7 @@ export const getOneProduct = async (req, res) => {
   try {
     const product = await Products.findOne({
       where: {
-        id: req.params.id,
+        product_id: req.params.id,
       },
     });
     if (!product)
@@ -40,6 +40,7 @@ export const createProducts = async (req, res) => {
     });
     res.json({ message: "Product addded successfully" });
   } catch (error) {
+    console.log(error)
     res.json({ message: "Failed to add new product" });
   }
 };
@@ -47,7 +48,7 @@ export const createProducts = async (req, res) => {
 export const updateProduct = async (req, res) => {
   const product = await Products.findOne({
     where: {
-      id: req.params.id,
+      product_id: req.params.id,
     },
   });
   if (!product)
@@ -94,7 +95,7 @@ export const updateProduct = async (req, res) => {
       },
       {
         where: {
-          id: product.id,
+          product_id: product.id,
         },
       }
     );
@@ -109,7 +110,7 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   const product = await Products.findOne({
     where: {
-      id: req.params.id,
+      product_id: req.params.id,
     },
   });
   if (!product)
@@ -117,7 +118,7 @@ export const deleteProduct = async (req, res) => {
   try {
     await Products.destroy({
       where: {
-        id: product.id,
+        product_id: product.id,
       },
     });
     res.status(200).json({ message: `${product.name} deleted` });
