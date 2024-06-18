@@ -21,7 +21,7 @@ const Navbar = () => {
   };
   useEffect(() => {
     getRefreshToken();
-  }, [])
+  }, []);
 
   const navigate = useNavigate();
   const logout = async () => {
@@ -38,21 +38,27 @@ const Navbar = () => {
         <a className="btn btn-ghost text-xl">Satu Medis</a>
       </div>
       <div className="flex-none">
-        <ul className="menu menu-horizontal items-center px-1 gap-3">
-          <li className="flex flex-row">
-            {/* <FaUser className="text-primary "/>
-            {user} */}
-            <details>
-              <summary><FaUser /></summary>
+        <ul className="menu menu-horizontal items-center gap-3 px-1">
+          <li className="flex">
+            <div className="hidden sm:flex justify-center items-center">
+              <FaUser className="text-primary" />
+              <p className="text-primary font-semibold">{user}</p>
+            </div>
+            <details className="sm:hidden">
+              <summary>
+                <FaUser />
+              </summary>
               <ul className="rounded-t-none bg-base-100 p-2">
                 <li>
-                  <a>{user}</a>
+                  <a className="text-primary">{user}</a>
                 </li>
               </ul>
             </details>
           </li>
           <li>
-            <button className="btn hover:bg-primary" onClick={logout}>Logout</button>
+            <button className="btn" onClick={logout}>
+              Logout
+            </button>
           </li>
         </ul>
       </div>
