@@ -95,7 +95,7 @@ export const updateProduct = async (req, res) => {
       },
       {
         where: {
-          product_id: product.id,
+          product_id: product.product_id,
         },
       }
     );
@@ -118,7 +118,7 @@ export const deleteProduct = async (req, res) => {
   try {
     await Products.destroy({
       where: {
-        product_id: product.id,
+        product_id: product.product_id,
       },
     });
     res.status(200).json({ message: `${product.name} deleted` });

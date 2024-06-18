@@ -8,9 +8,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import ProductsPage from "./ProductsPage";
 import CustomersPage from "./CustomersPage";
+import CashierPage from "./CashierPage";
 
 const Dashboard = () => {
   const [token, setToken] = useState("");
+  const [name, setName] = useState("");
   const [expire, setExpire] = useState("");
   const navigate = useNavigate();
 
@@ -26,6 +28,7 @@ const Dashboard = () => {
       const response = await axios.get("http://localhost:4000/token");
       setToken(response.data.accessToken);
       const decoded = jwtDecode(response.data.accessToken);
+      setName(decoded.name);
       setExpire(decoded.exp);
     } catch (error) {
       if (error.response) {
@@ -45,6 +48,7 @@ const Dashboard = () => {
         config.headers.Authorization = `Bearer ${response.data.accessToken}`;
         setToken(response.data.accessToken);
         const decoded = jwtDecode(response.data.accessToken);
+        setName(decoded.name);
         setExpire(decoded.exp);
       }
       return config;
@@ -93,7 +97,7 @@ const Dashboard = () => {
       <div className="sidebar-container flex">
         <Sidebar />
         {/* Main content that must be rendered */}
-        <h1>Cashier Page</h1>
+        <CashierPage name={name} />
       </div>
     </>
   );

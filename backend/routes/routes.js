@@ -2,7 +2,7 @@ import express from "express";
 import { getUsers, register, login, logout, updateUser, deleteUser } from "../controllers/UserController.js";
 import { getProducts, getOneProduct, createProducts, updateProduct, deleteProduct } from "../controllers/ProductController.js";
 import { getCustomers, getOneCustomer, createCustomer, updateCustomer, deleteCustomer } from "../controllers/CustomersController.js";
-import { getSales, createSales } from "../controllers/SalesController.js";
+import { getSales, createSales, updateSales, getOneSales } from "../controllers/SalesController.js";
 import { verifyToken } from "../middleware/VerifyToken.js";
 import { refreshToken } from "../controllers/RefreshToken.js";
 
@@ -28,8 +28,10 @@ router.post("/customers", createCustomer);
 router.patch("/customers/:id", updateCustomer);
 router.delete("/customers/:id", deleteCustomer);
 
-router.get("/sales", getSales);
-router.get("/sales/:id", getSales);
+// router.post("/sales", getSales);
+router.get("/sales/:invoice", getSales);
+router.get("/getonesales/:id", getOneSales);
 router.post("/sales", createSales);
+router.patch("/sales/:id", updateSales);
 
 export default router;

@@ -16,7 +16,7 @@ const Login = () => {
         password: password,
       });
       toast.success(response.data.message);
-      setTimeout(() => navigate("/products"), 1000);
+      setTimeout(() => navigate("/cashier"), 1000);
     } catch (error) {
       if (error.response) {
         toast.error(error.response.data.message);

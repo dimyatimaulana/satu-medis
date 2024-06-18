@@ -93,7 +93,7 @@ export const updateCustomer = async (req, res) => {
       },
       {
         where: {
-          customer_id: customer.id,
+          customer_id: customer.customer_id,
         },
       }
     );
@@ -117,7 +117,7 @@ export const deleteCustomer = async (req, res) => {
   try {
     await Customers.destroy({
       where: {
-        customer_id: customers.id,
+        customer_id: customers.customer_id,
       },
     });
     res.status(200).json({ message: `${customers.firstname} deleted` });
