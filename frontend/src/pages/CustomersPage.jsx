@@ -51,7 +51,7 @@ const CustomersPage = () => {
             })
             .map((customer, idx) => (
               <tr key={idx} className="text-sm md:text-base">
-                <td>{customer.id}</td>
+                <td>{customer.customer_id}</td>
                 <td>{customer.firstname}</td>
                 <td>{customer.lastname}</td>
                 <td>{customer.address}</td>
@@ -59,14 +59,14 @@ const CustomersPage = () => {
                 <td>{customer.whatsapp}</td>
                 <td className="flex gap-3">
                   <button
-                    className="btn text-sm hover:bg-primary hover:text-white"
-                    onClick={() => navigate(`/customers/edit/${customer.id}`)}
+                    className="btn"
+                    onClick={() => navigate(`/customers/edit/${customer.customer_id}`)}
                   >
                     Edit
                   </button>
                   <button
                     className="btn bg-red-500 text-white"
-                    onClick={() => deleteCustomer(customer.id)}
+                    onClick={() => deleteCustomer(customer.customer_id)}
                   >
                     Delete
                   </button>
@@ -136,7 +136,7 @@ const CustomersPage = () => {
           <FaSearch className="opacity-70 sm:h-4 sm:w-4" />
         </div>
         <button
-          className="btn text-sm hover:bg-primary hover:text-white"
+          className="btn"
           onClick={() => navigate(`/customers/add`)}
         >
           Add Customer

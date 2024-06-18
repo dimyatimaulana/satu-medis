@@ -51,7 +51,7 @@ const ProductsPage = () => {
             })
             .map((product, idx) => (
               <tr key={idx} className="text-sm md:text-base">
-                <td>{product.id}</td>
+                <td>{product.product_id}</td>
                 <td>{product.name}</td>
                 <td>{product.barcode}</td>
                 <td>{product.qty}</td>
@@ -59,14 +59,14 @@ const ProductsPage = () => {
                 <td>{product.cost}</td>
                 <td className="flex gap-3">
                   <button
-                    className="btn text-sm hover:bg-primary hover:text-white"
-                    onClick={() => navigate(`/products/edit/${product.id}`)}
+                    className="btn"
+                    onClick={() => navigate(`/products/edit/${product.product_id}`)}
                   >
                     Edit
                   </button>
                   <button
                     className="btn bg-red-500 text-white"
-                    onClick={() => deleteProduct(product.id)}
+                    onClick={() => deleteProduct(product.product_id)}
                   >
                     Delete
                   </button>
@@ -136,7 +136,7 @@ const ProductsPage = () => {
           <FaSearch className="opacity-70 sm:h-4 sm:w-4" />
         </div>
         <button
-          className="btn text-sm hover:bg-primary hover:text-white"
+          className="btn"
           onClick={() => navigate(`/products/add`)}
         >
           Add Product
