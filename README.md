@@ -1,4 +1,4 @@
-My repository to learn CRUD operation and Authentication with JWT Token,
+My repository to learn CRUD operations and Authentication with JWT Token,
 
 Latest feature:
 1. Login and Register
