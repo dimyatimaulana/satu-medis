@@ -2,8 +2,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
-import { FaCartShopping } from "react-icons/fa6";
-import { MdDiscount } from "react-icons/md";
+import { FaCheck } from "react-icons/fa6";
 
 const CashierPage = ({ name }) => {
   const [invoiceNo, setInvoiceNo] = useState("-");
@@ -53,19 +52,35 @@ const CashierPage = ({ name }) => {
   };
 
   const handleUpdateQty = async (prevQty) => {
-    await axios.patch(`${BASE_URL}/sales/${productId}`, {
+    await axios.patch(`${BASE_URL}/sales/qty/${productId}`, {
       invoice_no: invoiceNo,
       qty: prevQty + 1,
     });
   };
 
   const handleUpdateQty2 = async (newQty, productId) => {
-    await axios.patch(`${BASE_URL}/sales/${productId}`, {
+    await axios.patch(`${BASE_URL}/sales/qty/${productId}`, {
       invoice_no: invoiceNo,
       qty: newQty,
     });
     getSales();
-  }
+  };
+
+  const handleUpdateDiscPercent = async (discountPercent, productId) => {
+    await axios.patch(`${BASE_URL}/sales/discountpercent/${productId}`, {
+      invoice_no: invoiceNo,
+      discountPercent: discountPercent,
+    });
+    getSales();
+  };
+
+  const handleUpdateDiscMoney = async (discountMoney, productId) => {
+    await axios.patch(`${BASE_URL}/sales/discountmoney/${productId}`, {
+      invoice_no: invoiceNo,
+      discountMoney: discountMoney,
+    });
+    getSales();
+  };
 
   const handleSubmit = async () => {
     if (sales.sales) {
@@ -148,7 +163,7 @@ const CashierPage = ({ name }) => {
       <h1 className="w-fit p-3 text-base font-bold md:text-lg lg:text-xl">
         Cashier
       </h1>
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <button
           className="btn hover:bg-gray"
           onClick={() => {
@@ -284,86 +299,6 @@ const CashierPage = ({ name }) => {
             </>
           )}
         </div>
-        <div className="flex gap-2">
-          {salesOpened === true ? (
-            <>
-              <button
-                className="btn"
-                // onClick={() => document.getElementById("editQty").showModal()}
-              >
-                <FaCartShopping />
-              </button>
-              {/* <dialog id="editQty" className="modal">
-                <div className="modal-box max-w-[1080px]">
-                  <h3 className="mb-2 text-lg font-bold">Edit Qty</h3>
-                  <div className="container col-span-3 overflow-x-auto">
-                    <table className="table">
-                      <thead>
-                        <tr className="border-y-[1px] border-gray bg-primary text-white">
-                          <th className="border-x-[1px] border-gray">No</th>
-                          <th className="border-r-[1px] border-gray">
-                            Prd Name
-                          </th>
-                          <th className="border-r-[1px] border-gray">Price</th>
-                          <th className="border-r-[1px] border-gray text-center">
-                            Qty
-                          </th>
-                          <th className="border-r-[1px] border-gray">Total</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {sales.sales &&
-                          sales.sales.map((item, idx) => {
-                            return (
-                              <tr className="hover border-x-[1px]" key={idx}>
-                                <th className="border-b-[1px] border-gray font-normal">
-                                  {idx + 1}
-                                </th>
-                                <td className="border-x-[1px] border-b-[1px] border-gray">
-                                  {item.product}
-                                </td>
-                                <td className="border-b-[1px] border-l-[1px] border-gray">
-                                  {item.price.toLocaleString()}
-                                </td>
-                                <td className="border-b-[1px] border-l-[1px] border-gray p-0 text-center">
-                                  <input
-                                    type="text"
-                                    className="input max-h-[30px] w-full max-w-[50px]"
-                                    placeholder={item.qty}
-                                  />
-                                </td>
-                                <td className="border-b-[1px] border-l-[1px] border-gray">
-                                  {item.total.toLocaleString()}
-                                </td>
-                              </tr>
-                            );
-                          })}
-                      </tbody>
-                    </table>
-                  </div>
-                  <div className="modal-action">
-                    <form method="dialog">
-                      <button className="btn">Close</button>
-                      <button className="btn ms-2 bg-gray hover:bg-primary text-white">Submit</button>
-                    </form>
-                  </div>
-                </div>
-              </dialog> */}
-              <button className="btn">
-                <MdDiscount />
-              </button>
-            </>
-          ) : (
-            <>
-              <button className="btn" disabled>
-                <FaCartShopping />
-              </button>
-              <button className="btn" disabled>
-                <MdDiscount />
-              </button>
-            </>
-          )}
-        </div>
         <div className="flex w-full grid-cols-4 flex-wrap gap-3 sm:grid">
           <div className="container col-span-3 overflow-x-auto">
             <table className="table">
@@ -373,8 +308,11 @@ const CashierPage = ({ name }) => {
                   <th className="border-r-[1px] border-gray">Prd Name</th>
                   <th className="border-r-[1px] border-gray">Barcode</th>
                   <th className="border-r-[1px] border-gray">Price</th>
-                  <th className="border-r-[1px] border-gray text-center">Qty</th>
-                  <th className="border-r-[1px] border-gray">Discounts</th>
+                  <th className="border-r-[1px] border-gray text-center">
+                    Qty
+                  </th>
+                  <th className="border-r-[1px] border-gray">Disc. %</th>
+                  <th className="border-r-[1px] border-gray">Disc. Rp</th>
                   <th className="border-r-[1px] border-gray">Total</th>
                 </tr>
               </thead>
@@ -400,11 +338,85 @@ const CashierPage = ({ name }) => {
                             type="text"
                             className="input max-h-[30px] w-full max-w-[50px]"
                             value={item.qty}
-                            onChange={(e) => handleUpdateQty2(e.target.value, item.product_id)}
+                            onChange={(e) =>
+                              handleUpdateQty2(e.target.value, item.product_id)
+                            }
                           />
                         </td>
                         <td className="border-b-[1px] border-l-[1px] border-gray">
-                          {item.disc_percent}
+                          <form
+                            action="submit"
+                            className="flex items-center justify-center gap-2"
+                          >
+                            {item.disc_percent > 0 ? (
+                              <input
+                                type="text"
+                                className="input max-h-[30px] w-full max-w-[50px]"
+                                value={item.disc_percent}
+                                onChange={(e) => {
+                                  setDiscPercent(e.target.value);
+                                }}
+                              />
+                            ) : (
+                              <input
+                                type="text"
+                                className="input max-h-[30px] w-full max-w-[50px]"
+                                value={discPercent}
+                                onChange={(e) => {
+                                  setDiscPercent(e.target.value);
+                                }}
+                              />
+                            )}
+                            <button
+                              id="btnDiscPercent"
+                              className="btn h-min min-h-1 border-0 bg-transparent p-1"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handleUpdateDiscPercent(
+                                  discPercent,
+                                  item.product_id,
+                                );
+                                setDiscPercent(0);
+                              }}
+                            >
+                              <FaCheck />
+                            </button>
+                          </form>
+                        </td>
+                        <td className="border-b-[1px] border-l-[1px] border-gray">
+                          <form
+                            action="submit"
+                            className="flex items-center justify-center gap-2"
+                          >
+                            {item.disc_money > 0 ? (
+                              <input
+                                type="text"
+                                className="input max-h-[30px] w-full max-w-[50px]"
+                                value={item.disc_money}
+                                onChange={(e) => setDiscMoney(e.target.value)}
+                              />
+                            ) : (
+                              <input
+                                type="text"
+                                className="input max-h-[30px] w-full max-w-[50px]"
+                                value={discMoney}
+                                onChange={(e) => setDiscMoney(e.target.value)}
+                              />
+                            )}
+                            <button
+                              className="btn h-min min-h-1 border-0 bg-transparent p-1"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handleUpdateDiscMoney(
+                                  discMoney,
+                                  item.product_id,
+                                );
+                                setDiscMoney(0);
+                              }}
+                            >
+                              <FaCheck />
+                            </button>
+                          </form>
                         </td>
                         <td className="border-b-[1px] border-l-[1px] border-gray">
                           {item.total.toLocaleString()}

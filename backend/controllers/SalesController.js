@@ -75,6 +75,60 @@ export const updateSales = async (req, res) => {
   }
 };
 
+export const updateDiscountMoney = async (req, res) => {
+  const { invoice_no, discountMoney } = req.body;
+  const sales = Sales.findOne({
+    where: {
+      invoice_no: invoice_no,
+      product_id: req.params.id,
+    },
+  });
+  if (!sales) return res.status(404).json({ message: "Sales is not found" });
+  try {
+    await Sales.update(
+      {
+        disc_money: discountMoney,
+      },
+      {
+        where: {
+          invoice_no: invoice_no,
+          product_id: req.params.id,
+        },
+      }
+    );
+    res.status(200).json({ message: "Discount updated" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateDiscountPercent = async (req, res) => {
+  const { invoice_no, discountPercent } = req.body;
+  const sales = Sales.findOne({
+    where: {
+      invoice_no: invoice_no,
+      product_id: req.params.id,
+    },
+  });
+  if (!sales) return res.status(404).json({ message: "Sales is not found" });
+  try {
+    await Sales.update(
+      {
+        disc_percent: discountPercent,
+      },
+      {
+        where: {
+          invoice_no: invoice_no,
+          product_id: req.params.id,
+        },
+      }
+    );
+    res.status(200).json({ message: "Discount updated" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getSales = async (req, res) => {
   const sales = await Sales.findAll({
     where: {
@@ -217,7 +271,7 @@ export const getOneSales = async (req, res) => {
     if (!sales) return res.status(404).json({ message: "Sale is not found" });
     let customer = "Customer";
     if (sales.customer) {
-      customer = `${sales.customer.firstname} ${sales.customer.lastname}`
+      customer = `${sales.customer.firstname} ${sales.customer.lastname}`;
     }
     const total = sales.qty * sales.product.price;
     const dt = dayjs(sales.updatedAt);

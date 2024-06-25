@@ -82,3 +82,11 @@ button:focus-visible {
   color: white;
   background-color: #242424;
 }
+
+#loginBtn:hover, #signupBtn:hover {
+  transform: translateY(-0.33em);
+}
+
+#loginBtn:active, #signupBtn:active {
+  transform: translateY(0em);
+}

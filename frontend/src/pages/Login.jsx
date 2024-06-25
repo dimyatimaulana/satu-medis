@@ -2,6 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+// import HadiSport from "../assets/hadi-sport-orlin.jpg";
+import LoginHero from "../assets/login-hero.webp";
+import { IoMail } from "react-icons/io5";
+import { FaLock } from "react-icons/fa";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -25,56 +29,69 @@ const Login = () => {
   };
 
   return (
-    <div id="" className="bg-slate-400 w-full h-screen flex">
-      <Toaster position="top-right" reverseOrder={false} />
+    <div id="" className="flex h-screen w-full grid-cols-2 bg-white lg:grid">
+      <Toaster position="top-center" reverseOrder={false} />
       <form
         action="submit"
         onSubmit={login}
-        className="bg-white p-5 rounded-md m-auto flex flex-col"
+        className="col-span-1 m-auto flex flex-col justify-center rounded-md border border-primary p-5 shadow-lg lg:gap-6 lg:border-0 lg:shadow-none"
       >
-        <h1 className="text-center font-bold">Login</h1>
-        <label
-          htmlFor="email"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >
-          Email
+        <h1 className="mb-3 text-center text-xl font-semibold lg:text-start lg:text-[32px]">
+          Welcome Back
+        </h1>
+        <h1 className="mb-5 text-center text-base lg:text-start lg:text-[24px]">
+          Login to your account
+        </h1>
+        <label className="input input-bordered mb-3 flex items-center gap-3 text-deepBlue lg:min-w-[400px]">
+          <IoMail />
+          <input
+            type="email"
+            id="email"
+            className="grow"
+            placeholder="Email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </label>
-        <input
-          type="email"
-          id="email"
-          className="input input-bordered w-full max-w-xs mb-3"
-          placeholder="johndoe@company.com"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <label
-          htmlFor="email"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >
-          Password
+        <label className="input input-bordered mb-3 flex items-center gap-3 text-deepBlue">
+          <FaLock />
+          <input
+            type="password"
+            id="password"
+            className="grow"
+            placeholder="Password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </label>
-        <input
-          type="password"
-          id="password"
-          className="input input-bordered w-full max-w-xs mb-5"
-          placeholder="•••••••••"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <div className="lg:flex justify-between text-[12px] md:text-[14px] mb-5">
+        <div className="mb-5 justify-between ps-2 text-[12px] md:text-[14px] lg:flex lg:text-[18px]">
           <p>
-            Belum punya akun ?{" "}
-            <a href="/register" className="text-primary font-semibold">
-              Daftar
+            Don{"'"}t have an account yet?{" "}
+            <a
+              href="/register"
+              className="font-semibold text-primary decoration-solid hover:underline"
+            >
+              Sign Up
             </a>
           </p>
         </div>
-        <button type="submit" className="w-full bg-primary text-white">
+        <button
+          type="submit"
+          className="btn w-full rounded-[25px] border-0 bg-gradient-to-r from-deepBlue from-20% to-[#3953d4] text-white shadow-md lg:text-[18px]"
+          id="loginBtn"
+        >
           Login
         </button>
       </form>
+      <div className="hero-img col-span-1 hidden items-center justify-center lg:flex">
+        <img
+          src={LoginHero}
+          alt="hero"
+          className="max-h-[95vh] rounded-[40px] bg-primary"
+        />
+      </div>
     </div>
   );
 };
