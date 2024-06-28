@@ -1,13 +1,15 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
 import { FaCheck } from "react-icons/fa6";
+import ReactToPrint from "react-to-print";
 
 const CashierPage = ({ name }) => {
   const [invoiceNo, setInvoiceNo] = useState("-");
   const [customerId, setCustomerId] = useState("");
   const [productId, setProductId] = useState(1);
+  // eslint-disable-next-line no-unused-vars
   const [qty, setQty] = useState(1);
   // const [price, setPrice] = useState("");
   const [discPercent, setDiscPercent] = useState("");
@@ -23,6 +25,11 @@ const CashierPage = ({ name }) => {
   const [sales, setSales] = useState("");
   const [today, setToday] = useState("");
   const [salesOpened, setSalesOpened] = useState(false);
+
+  const [pay, setPay] = useState("");
+  const [returnMoney, setReturnMoney] = useState("");
+
+  const ref = useRef();
 
   const generateInvoiceNumber = () => {
     const fulldate = new Date();
@@ -233,7 +240,10 @@ const CashierPage = ({ name }) => {
               </select>
             </form>
             <div className="modal-action">
-              <form method="dialog" className="flex w-[100%] justify-end gap-3">
+              <form
+                method="dialog"
+                className="flex w-[100%] justify-end gap-3 px-3"
+              >
                 {/* if there is a button in form, it will close the modal */}
                 <button className="btn">Close</button>
                 <button
@@ -304,7 +314,7 @@ const CashierPage = ({ name }) => {
             <table className="table">
               <thead>
                 <tr className="border-y-[1px] border-gray bg-primary text-white">
-                  <th className="border-x-[1px] border-gray">No</th>
+                  <th className="border-x-[1px] border-gray text-center">No</th>
                   <th className="border-r-[1px] border-gray">Prd Name</th>
                   <th className="border-r-[1px] border-gray">Barcode</th>
                   <th className="border-r-[1px] border-gray">Price</th>
@@ -321,7 +331,7 @@ const CashierPage = ({ name }) => {
                   sales.sales.map((item, idx) => {
                     return (
                       <tr className="hover border-x-[1px]" key={idx}>
-                        <th className="border-b-[1px] border-gray font-normal">
+                        <th className="border-b-[1px] border-gray text-center font-normal">
                           {idx + 1}
                         </th>
                         <td className="border-x-[1px] border-b-[1px] border-gray">
@@ -427,7 +437,18 @@ const CashierPage = ({ name }) => {
               </tbody>
             </table>
           </div>
-          <div className="container card max-h-[450px] bg-gray text-white">
+          <div className="container card mb-2 max-h-[450px] bg-[#fafafa] shadow-md">
+            <div className="tools inline-flex items-center gap-2 p-2">
+              <div className="circle">
+                <span className="inline-block h-[10px] w-[10px] items-center rounded-[50%] bg-[#ff605c] p-1"></span>
+              </div>
+              <div className="circle">
+                <span className="inline-block h-[10px] w-[10px] items-center rounded-[50%] bg-[#ffbd44] p-1"></span>
+              </div>
+              <div className="circle">
+                <span className="inline-block h-[10px] w-[10px] items-center rounded-[50%] bg-[#00ca4e] p-1"></span>
+              </div>
+            </div>
             <h2 className="py-2 text-center font-semibold">Sales Details</h2>
             <div id="salesDetails" className="p-2 px-3 text-sm lg:text-base">
               <div className="flex">
@@ -453,6 +474,7 @@ const CashierPage = ({ name }) => {
               <div className="flex">
                 <h3 className="grow basis-1">Customer</h3>
                 <h3 className="grow basis-1">
+                  :
                   {customers &&
                     customers
                       .filter((item) => item.customer_id == customerId)
@@ -464,6 +486,187 @@ const CashierPage = ({ name }) => {
               <h2 className="py-2 text-center font-semibold">Sales Total</h2>
               <div className="flex items-center justify-center gap-2 text-lg font-semibold">
                 <h3>Rp. {formattedTotal}</h3>
+              </div>
+              <button
+                className="btn mt-4 hover:bg-gray"
+                onClick={() => {
+                  document.getElementById("checkoutModal").showModal();
+                }}
+              >
+                Checkout
+              </button>
+              <dialog id="checkoutModal" className="modal">
+                <div className="modal-box text-start">
+                  <h3 className="text-lg font-bold">Checkout</h3>
+                  <form
+                    className="w-full p-3"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    <label className="text-gray-900 mb-2 block text-sm font-medium dark:text-white">
+                      Total
+                    </label>
+                    <input
+                      type="text"
+                      className="input input-bordered mb-3 w-full text-sm"
+                      value={formattedTotal}
+                      readOnly
+                    />
+                    <label className="text-gray-900 mb-2 block text-sm font-medium dark:text-white">
+                      Pay
+                    </label>
+                    <input
+                      type="number"
+                      className="input input-bordered mb-3 w-full text-sm"
+                      value={pay}
+                      onChange={(e) => {
+                        setPay(e.target.value);
+                        setReturnMoney(
+                          (e.target.value - total).toLocaleString(),
+                        );
+                      }}
+                    />
+                    <label className="text-gray-900 mb-2 block text-sm font-medium dark:text-white">
+                      Return
+                    </label>
+                    <input
+                      type="text"
+                      className="input input-bordered mb-3 w-full text-sm"
+                      value={returnMoney}
+                      readOnly
+                    />
+                  </form>
+                  <div className="modal-action">
+                    <form
+                      method="dialog"
+                      className="flex w-[100%] justify-end gap-3 px-3"
+                    >
+                      {/* if there is a button in form, it will close the modal */}
+                      <button className="btn">Close</button>
+                      <ReactToPrint
+                        trigger={() => (
+                          <button className="btn bg-primary text-white hover:bg-gray">
+                            Print
+                          </button>
+                        )}
+                        content={() => ref.current}
+                      />
+                    </form>
+                  </div>
+                </div>
+              </dialog>
+            </div>
+          </div>
+          <div className="col-span-4">
+            <h1 className="w-fit p-3 text-base font-bold md:text-lg lg:text-xl">
+              Print Preview
+            </h1>
+            <div id="elementToPrint" className="max-w-[300px] pt-4" ref={ref}>
+              <div
+                id="storeData"
+                className="flex flex-col border-b-[1px] p-2 px-4 text-center"
+              >
+                <div className="font-bold">Hadi Sport Shop x Orlin Apparel</div>
+                <span className="text-sm">
+                  Jalan Hasyim Dirjosubroto No.44, Wangandawa, Kec.Talang,
+                  Kab.Tegal
+                </span>
+              </div>
+              <div
+                id="invoiceData"
+                className="flex justify-between gap-4 border-b-[1px] p-2 px-4 text-sm"
+              >
+                <div>
+                  <div>Date</div>
+                  <div>No</div>
+                  <div>Admin</div>
+                  <div>Customer</div>
+                </div>
+                <div>
+                  {today !== "" ? <div>: {today}</div> : <div>: Today</div>}
+                  {invoiceNo !== "" ? <div>: {invoiceNo}</div> : <div>: -</div>}
+                  <div>: {name}</div>
+                  <div>
+                    :{" "}
+                    {customers &&
+                      customers
+                        .filter((item) => item.customer_id == customerId)
+                        .map((customer) => `: ${customer.firstname}`)}
+                  </div>
+                </div>
+              </div>
+              <div id="salesData" className="border-b-[1px] p-2">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>Prd Name</th>
+                      <th>Discounts</th>
+                      <th className="text-end">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {sales.sales &&
+                      sales.sales.map((item, idx) => {
+                        if (item.disc_percent == 0 && item.disc_money == 0) {
+                          return (
+                          <tr key={idx}>
+                            <td>{item.product}</td>
+                            <td></td>
+                            <td className="text-end">{item.total.toLocaleString()}</td>
+                          </tr>
+                          )
+                        } else if (item.disc_percent > 0 && item.disc_money == 0) {
+                          return (
+                          <tr key={idx}>
+                            <td>{item.product}</td>
+                            <td>
+                              {item.disc_percent}%
+                            </td>
+                            <td className="text-end">{item.total.toLocaleString()}</td>
+                          </tr>)
+                        } else if (item.disc_percent == 0 && item.disc_money > 0) {
+                          return (
+                          <tr key={idx}>
+                            <td>{item.product}</td>
+                            <td>
+                              {item.disc_money.toLocaleString()}
+                            </td>
+                            <td className="text-end">{item.total.toLocaleString()}</td>
+                          </tr>)
+                        }
+                        return (
+                          <tr key={idx}>
+                            <td>{item.product}</td>
+                            <td>
+                              {item.disc_percent}% +{" "}
+                              {item.disc_money.toLocaleString()}
+                            </td>
+                            <td className="text-end">{item.total.toLocaleString()}</td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
+              <div id="total" className="p-2 px-4 text-sm">
+                <div className="flex justify-between font-bold">
+                  <div>Total</div>
+                  <div>Rp. {formattedTotal}</div>
+                </div>
+                <div className="flex justify-between">
+                  <div>Bayar</div>
+                  <div>Rp. {pay.toLocaleString()}</div>
+                </div>
+                <div className="flex justify-between">
+                  <div>Kembalian</div>
+                  <div>Rp. {returnMoney}</div>
+                </div>
+              </div>
+              <div className="p-2 px-4 text-center text-sm">
+                <div>Barang yang sudah dibeli tidak dapat ditukar kembali</div>
+                <div className="font-bold">TERIMA KASIH</div>
+                <div className="font-bold">ATAS KUNJUNGAN ANDA</div>
               </div>
             </div>
           </div>
