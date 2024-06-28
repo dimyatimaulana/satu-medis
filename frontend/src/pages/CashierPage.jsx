@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { Toaster } from "react-hot-toast";
-import { FaCheck } from "react-icons/fa6";
+import { Toaster, toast } from "react-hot-toast";
+import { FaCheck, FaTrashCan } from "react-icons/fa6";
 import ReactToPrint from "react-to-print";
 
 const CashierPage = ({ name }) => {
@@ -158,6 +158,16 @@ const CashierPage = ({ name }) => {
     }
   };
 
+  const handleDelete = async (salesId) => {
+    try {
+      const response = await axios.delete(`${BASE_URL}/sales/${salesId}`);
+      toast.error(response.data.message);
+      getSales();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getProducts();
   }, []);
@@ -165,8 +175,8 @@ const CashierPage = ({ name }) => {
   const formattedTotal = total.toLocaleString();
 
   return (
-    <div className="ms-[2rem] w-full overflow-auto px-8 pt-3 sm:ms-[18%] sm:ps-[2rem]">
-      <Toaster position="bottom-right" reverseOrder={false} />
+    <div className="ms-[2rem] w-full overflow-auto px-8 pt-3 sm:ms-[15%] sm:ps-[2rem]">
+      <Toaster position="top-center" reverseOrder={false} />
       <h1 className="w-fit p-3 text-base font-bold md:text-lg lg:text-xl">
         Cashier
       </h1>
@@ -324,6 +334,7 @@ const CashierPage = ({ name }) => {
                   <th className="border-r-[1px] border-gray">Disc. %</th>
                   <th className="border-r-[1px] border-gray">Disc. Rp</th>
                   <th className="border-r-[1px] border-gray">Total</th>
+                  <th className="border-r-[1px] border-gray">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -430,6 +441,14 @@ const CashierPage = ({ name }) => {
                         </td>
                         <td className="border-b-[1px] border-l-[1px] border-gray">
                           {item.total.toLocaleString()}
+                        </td>
+                        <td className="border-b-[1px] border-l-[1px] border-gray text-center">
+                          <button
+                            className="btn bg-red-500 px-4 py-1 text-white hover:bg-red-600"
+                            onClick={() => handleDelete(item.sales_id)}
+                          >
+                            <FaTrashCan />
+                          </button>
                         </td>
                       </tr>
                     );
@@ -610,30 +629,40 @@ const CashierPage = ({ name }) => {
                       sales.sales.map((item, idx) => {
                         if (item.disc_percent == 0 && item.disc_money == 0) {
                           return (
-                          <tr key={idx}>
-                            <td>{item.product}</td>
-                            <td></td>
-                            <td className="text-end">{item.total.toLocaleString()}</td>
-                          </tr>
-                          )
-                        } else if (item.disc_percent > 0 && item.disc_money == 0) {
+                            <tr key={idx}>
+                              <td>{item.product}</td>
+                              <td></td>
+                              <td className="text-end">
+                                {item.total.toLocaleString()}
+                              </td>
+                            </tr>
+                          );
+                        } else if (
+                          item.disc_percent > 0 &&
+                          item.disc_money == 0
+                        ) {
                           return (
-                          <tr key={idx}>
-                            <td>{item.product}</td>
-                            <td>
-                              {item.disc_percent}%
-                            </td>
-                            <td className="text-end">{item.total.toLocaleString()}</td>
-                          </tr>)
-                        } else if (item.disc_percent == 0 && item.disc_money > 0) {
+                            <tr key={idx}>
+                              <td>{item.product}</td>
+                              <td>{item.disc_percent}%</td>
+                              <td className="text-end">
+                                {item.total.toLocaleString()}
+                              </td>
+                            </tr>
+                          );
+                        } else if (
+                          item.disc_percent == 0 &&
+                          item.disc_money > 0
+                        ) {
                           return (
-                          <tr key={idx}>
-                            <td>{item.product}</td>
-                            <td>
-                              {item.disc_money.toLocaleString()}
-                            </td>
-                            <td className="text-end">{item.total.toLocaleString()}</td>
-                          </tr>)
+                            <tr key={idx}>
+                              <td>{item.product}</td>
+                              <td>{item.disc_money.toLocaleString()}</td>
+                              <td className="text-end">
+                                {item.total.toLocaleString()}
+                              </td>
+                            </tr>
+                          );
                         }
                         return (
                           <tr key={idx}>
@@ -642,7 +671,9 @@ const CashierPage = ({ name }) => {
                               {item.disc_percent}% +{" "}
                               {item.disc_money.toLocaleString()}
                             </td>
-                            <td className="text-end">{item.total.toLocaleString()}</td>
+                            <td className="text-end">
+                              {item.total.toLocaleString()}
+                            </td>
                           </tr>
                         );
                       })}

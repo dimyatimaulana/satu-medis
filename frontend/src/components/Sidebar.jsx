@@ -23,7 +23,7 @@ const Sidebar = () => {
         >
           <a
             href="/cashier"
-            className="flex w-full items-center gap-2 p-2 text-inherit hover:text-inherit"
+            className="flex w-full items-center gap-2 p-2 sm:ps-4 text-inherit hover:text-inherit"
           >
             <FaShop />
             <p className="hidden sm:block">Cashier</p>
@@ -40,7 +40,7 @@ const Sidebar = () => {
         >
           <a
             href="/products"
-            className="flex w-full items-center gap-2 p-2 text-inherit hover:text-inherit"
+            className="flex w-full items-center gap-2 p-2 sm:ps-4 text-inherit hover:text-inherit"
           >
             <FaBoxesStacked />
             <p className="hidden sm:block">Products</p>
@@ -55,7 +55,7 @@ const Sidebar = () => {
         >
           <a
             href="/customers"
-            className="flex w-full items-center gap-2 p-2 text-inherit hover:text-inherit"
+            className="flex w-full items-center gap-2 p-2 sm:ps-4 text-inherit hover:text-inherit"
           >
             <FaUsers />
             <p className="hidden sm:block">Customers</p>
@@ -68,7 +68,7 @@ const Sidebar = () => {
               : "flex rounded-md"
           }
         >
-          <a className="flex w-full items-center gap-2 p-2 text-inherit hover:text-inherit">
+          <a className="flex w-full items-center gap-2 p-2 sm:ps-4 text-inherit hover:text-inherit">
             <FaFileLines />
             <p className="hidden sm:block">Reports</p>
           </a>
@@ -80,7 +80,7 @@ const Sidebar = () => {
               : "flex rounded-md"
           }
         >
-          <a className="flex w-full items-center gap-2 p-2 text-inherit hover:text-inherit">
+          <a className="flex w-full items-center gap-2 p-2 sm:ps-4 text-inherit hover:text-inherit">
             <FaChartSimple />
             <p className="hidden sm:block">Charts</p>
           </a>
@@ -92,7 +92,7 @@ const Sidebar = () => {
               : "flex rounded-md"
           }
         >
-          <a className="flex w-full items-center gap-2 p-2 text-inherit hover:text-inherit">
+          <a className="flex w-full items-center gap-2 p-2 sm:ps-4 text-inherit hover:text-inherit">
             <FaShoppingCart />
             <p className="hidden sm:block">Sales</p>
           </a>

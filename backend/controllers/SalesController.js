@@ -296,3 +296,23 @@ export const getOneSales = async (req, res) => {
     res.json({ message: "Failed to get sales" });
   }
 };
+
+export const deleteSales = async (req, res) => {
+  const sales = await Sales.findOne({
+    where: {
+      sales_id: req.params.id,
+    },
+  });
+  if (!sales)
+    return res.status(404).json({ message: "Sales is not found" });
+  try {
+    await Sales.destroy({
+      where: {
+        sales_id: sales.sales_id,
+      },
+    });
+    res.status(200).json({ message: `Successfully deleted` });
+  } catch (error) {
+    res.status(400).json({ message: `Failed to delete` });
+  }
+}

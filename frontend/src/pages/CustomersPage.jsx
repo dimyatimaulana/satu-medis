@@ -120,7 +120,7 @@ const CustomersPage = () => {
   }
 
   return (
-    <div className="ms-[2rem] w-full overflow-auto px-8 pt-3 sm:ms-[18%] sm:ps-[2rem]">
+    <div className="ms-[2rem] w-full overflow-auto px-8 pt-3 sm:ms-[15%] sm:ps-[2rem]">
       <Toaster position="bottom-right" reverseOrder={false} />
       <h1 className="w-fit p-3 text-base font-bold md:text-lg lg:text-xl">
         Customers
